@@ -7,22 +7,34 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="address" , schema = "fsweb")
+@Table(name = "address", schema = "fsweb")
 public class Address {
-@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
+
     @Column(name = "street")
-private  String street;
+    private String street;
+
     @Column(name = "city")
-private String city;
+    private String city;
+
     @Column(name = "no")
-private Integer no;
+    private Integer no;
+
     @Column(name = "country")
-private String country;
+    private String country;
+
     @Column(name = "description")
-private String description;
-@OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    private String description;
+
+    @OneToOne(mappedBy = "address", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
     private Customer customer;
 }

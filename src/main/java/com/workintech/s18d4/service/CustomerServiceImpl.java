@@ -12,7 +12,6 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
-
     @Override
     public List<Customer> findAll() {
         return customerRepository.findAll();
@@ -20,8 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer find(long id) {
-        return customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+        return customerRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -31,8 +29,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer delete(long id) {
-        Customer customer = find(id);
-        customerRepository.delete(customer);
+        Customer customer = customerRepository.findById(id).orElse(null);
+        if (customer != null) {
+            customerRepository.delete(customer);
+        }
         return customer;
     }
 }
